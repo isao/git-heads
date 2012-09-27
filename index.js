@@ -32,36 +32,42 @@ function extract(star, ref, sha, msg) {
         parts = ref.match(REMOTE_RE);
 
     if(parts) {
-        //this is a remote head
+        //this is a remote
         remote = parts[1];
         branch = parts[2];
     } else {
-        //this is a local head
         remote = 'local';
         branch = ref;
-        branches[ref] = null; //just track local branches
+        branches[ref] = null; //just tracking local branches
     }
 
     if(!remotes.hasOwnProperty(remote)) {
         remotes[remote] = null;
     }
 
-    heads[remote + ',' + branch] = {sha: sha, msg: msg};
+    heads[remote + ',' + branch] = {sha: sha, msg: msg}; //todo msg option
 }
 
 function map(remotes, branches) {
     var title = [''].concat(remotes),
-        style = {compact: true, 'padding-left': 1, 'padding-right': 1},
+        style = {compact: true, 'padding-left': 1, 'padding-right': 2},
         table = new Table({head: title, style: style});
 
-    branches.forEach(function(branch) {
-        var row = [branch], blank = {sha:''};
+    function perBranch(branch) {
+        var row = [branch],
+            blank = {sha: '✖'},
+            prev;
+
         remotes.forEach(function(remote) {
             var head = heads[remote + ',' + branch] || blank;
-            row.push(head.sha);
+            row.push(head.sha === prev ? '✔' : head.sha);
+            prev = head.sha;
         });
+
         table.push(row);
-    });
+    }
+
+    branches.forEach(perBranch);
     return table;
 }
 

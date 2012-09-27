@@ -50,7 +50,9 @@ function extract(star, ref, sha, msg) {
 }
 
 function map(remotes, branches) {
-    var table = new Table({head: [''].concat(remotes)});
+    var title = [''].concat(remotes),
+        style = {compact: true, 'padding-left': 1, 'padding-right': 1},
+        table = new Table({head: title, style: style});
 
     branches.forEach(function(branch) {
         var row = [branch], blank = {sha:''};

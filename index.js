@@ -9,6 +9,8 @@ var exec = require('child_process').exec,
     heads = {};
 
 function chunk(err, stdout, stderr) {
+    var table;
+
     if(err) {
         console.error(stderr);
         return process.exit(err.code);
@@ -21,9 +23,7 @@ function chunk(err, stdout, stderr) {
         }
     });
 
-    //console.log(Object.keys(remotes), Object.keys(branches));
-    //console.log(heads);
-    console.log(map(Object.keys(remotes), Object.keys(branches)));
+    console.log(map(Object.keys(remotes), Object.keys(branches)).toString());
 }
 
 function extract(star, ref, sha, msg) {
@@ -39,7 +39,7 @@ function extract(star, ref, sha, msg) {
         //this is a local head
         remote = 'local';
         branch = ref;
-        branches[ref] = null;//just track local branches
+        branches[ref] = null; //just track local branches
     }
 
     if(!remotes.hasOwnProperty(remote)) {
@@ -50,17 +50,17 @@ function extract(star, ref, sha, msg) {
 }
 
 function map(remotes, branches) {
-    var rows = [''].concat(remotes);
+    var table = new Table({head: [''].concat(remotes)});
 
     branches.forEach(function(branch) {
-        var row = [branch];
+        var row = [branch], blank = {sha:''};
         remotes.forEach(function(remote) {
-            var head = heads[remote + ',' + branch] || {sha:''};
+            var head = heads[remote + ',' + branch] || blank;
             row.push(head.sha);
         });
-        rows.push(row)
+        table.push(row);
     });
-    return rows;
+    return table;
 }
 
 exec('git branch --all --verbose', chunk);

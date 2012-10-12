@@ -4,9 +4,9 @@ var exec = require('child_process').exec,
     Table = require('cli-table'),
     CHUNK_RE = /^([* ]) (\S+)\s+([0-9a-f]+) (.+)$/,
     REMOTE_RE = /^remotes\/([\w.-]+)\/([\w.-]+)/,
-    branches = {},
-    remotes = {},
-    heads = {};
+    branches = {}, //hash of local branch names
+    remotes = {},  //hash of remote names
+    heads = {};    //hash of git head data, keyed by 'remote,branch'
 
 function chunk(err, stdout, stderr) {
     var table;
@@ -37,7 +37,7 @@ function extract(star, ref, sha, msg) {
     } else {
         remote = 'local';
         branch = ref;
-        branches[ref] = null; //index local branches
+        branches[ref] = null; //index just the local branches
     }
 
     if(!remotes.hasOwnProperty(remote)) {
@@ -55,12 +55,12 @@ function map(remotes, branches) {
     function perBranch(branch) {
         var star = heads[['local', branch].join()].star,
             row = [branch + ' ' + star],
-            blank = {sha: '✖'},
+            blank = {sha: ''},
             prev;
 
         remotes.forEach(function(remote) {
             var head = heads[[remote, branch].join()] || blank;
-            row.push(head.sha === prev ? '✔' : head.sha);
+            row.push(prev && prev === head.sha ? '✔' : head.sha);
             prev = head.sha;
         });
 

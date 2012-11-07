@@ -1,9 +1,14 @@
 #!/usr/bin/env node
+/**
+ * Copyright (c) 2012 Yahoo! Inc.  All rights reserved.
+ * Copyrights licensed under the MIT License.
+ * See the accompanying LICENSE file for terms.
+ */
 
 var exec = require('child_process').exec,
     Table = require('cli-table'),
     CHUNK_RE = /^([* ]) (\S+)\s+([0-9a-f]+) (.+)$/,
-    REMOTE_RE = /^remotes\/([\w.-]+)\/([\w.-]+)/,
+    REMOTE_RE = /^remotes\/([\w.\-]+)\/([\w.\-]+)/,
     branches = {}, //hash of local branch names
     remotes = {},  //hash of remote names
     heads = {};    //hash of git head data, keyed by 'remote,branch'
@@ -16,7 +21,7 @@ function chunk(err, stdout, stderr) {
         return process.exit(err.code);
     }
 
-    stdout.split("\n").forEach(function(str) {
+    stdout.split('\n').forEach(function(str) {
         var parts = str.match(CHUNK_RE);
         if(parts) {
             extract(parts[1], parts[2], parts[3], parts[4]);

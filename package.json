@@ -1,7 +1,7 @@
 {
   "name": "git-heads",
   "version": "0.0.1",
-  "description": "show hashes for local and remote branch heads",
+  "description": "summarize `git branch -av` in a table",
   "main": "index.js",
   "bin": "index.js",
   "dependencies": {

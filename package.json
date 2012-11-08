@@ -3,11 +3,26 @@
   "version": "0.0.1",
   "description": "summarize `git branch -av` in a table",
   "main": "index.js",
-  "bin": "index.js",
-  "dependencies": {
-    "cli-table": "~0.0.2"
+  "bin": {
+    "git-heads": "index.js"
   },
-  "repository": "",
+  "dependencies": {
+    "cli-table": ">0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/isao/git-heads.git"
+  },
+  "bugs": "https://github.com/isao/git-heads/issues",
   "author": "Isao Yagi <isao@yahoo-inc.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo 'Error: no test specified' && exit 1"
+  },
+  "keywords": [
+    "git",
+    "scm"
+  ]
 }

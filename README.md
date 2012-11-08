@@ -1,8 +1,14 @@
 git-heads
 =========
-A small script that summarizes `git branch -av` into a table, something like:
+A small script that summarizes `git branch --all --verbose` into a table, something like:
 
-![screenshot](http://i.imgur.com/KhnxD.png)
+    % cd my/git/repo
+    % git heads
+![screenshot](http://f.cl.ly/items/3m460b2N191t3s3T1S1p/Image%202012.11.07%205:42:40%20PM.png)
+
+The HEAD commit hashes of all local branches are shown, with those of any corresponding remotes. Checkmarks are used for hashes that are the same as the one to it's left.
+
+Use it like a regular git command to see how the HEADs of your local and remote branches compare. Useful if you have many active git remotes and branches.
 
 install
 -------
@@ -12,7 +18,7 @@ install
 acknowledgments
 ---------------
 
-Table formatted using Guillermo Rauch's `cli-table`
+Table formatted using Guillermo Rauch's `cli-table`.
 
 See also [michaelklishin/git-wtf](https://github.com/michaelklishin/git-wtf), [drewfish/git-moo](https://github.com/drewfish/git-moo), et al.
 

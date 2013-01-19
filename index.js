@@ -110,7 +110,7 @@ function chunk(err, stdout, stderr) {
 
 colors.mode = process.stdout.isTTY ? 'console' : 'none'; // doesn't work
 
-msg_len_opt = process.argv.length > 2 ? +process.argv.pop() || 18 : 0;
+msg_len_opt = process.argv.length > 2 ? +process.argv.pop() : 18;
 
 exec('git branch -av', chunk);
 

@@ -2,7 +2,6 @@ git-heads
 =========
 A small script that summarizes `git branch --all --verbose` into a table, something like:
 
-    % cd my/git/repo
 ![screenshot](http://f.cl.ly/items/23421p1s180K0M023L2K/githead-scrnshot.png)
 
 The HEAD commit hashes of all local branches are shown, with those of any corresponding remotes. Checkmarks are used for hashes that are the same as the one to it's left.

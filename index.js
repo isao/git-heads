@@ -4,7 +4,7 @@
  * Copyrights licensed under the MIT License.
  * See the accompanying LICENSE file for terms.
  */
-/*jslint node:true, regexp:true */
+/*jshint node:true */
 'use strict';
 
 var exec = require('child_process').exec,
@@ -13,7 +13,7 @@ var exec = require('child_process').exec,
 
     CHUNK_RE = /^([* ]) (\S+)\s+([0-9a-f]+) (.+)$/,
     REMOTE_RE = /^remotes\/([\w.\-]+)\/([\w.\-]+)/,
-    msg_len_opt,
+    msglen,
 
     branches = {}, //hash of local branch names[1], no values
     remotes = {},  //hash of remote names[2], no values
@@ -53,8 +53,8 @@ function format(meta, local, prev) {
     } else {
         out.push(meta.sha);
         //optionally show commit message unless it's the same as prev column
-        if (msg_len_opt && (prev !== meta.sha)) {
-            out.push(meta.msg.slice(0, msg_len_opt).grey);
+        if (msglen && (prev !== meta.sha)) {
+            out.push(meta.msg.slice(0, msglen).grey);
         }
     }
     return out.join(' ');
@@ -77,7 +77,7 @@ function map(remotes, branches) {
             var head = getMeta(remote, branch) || blank;
             row.push(format(head, lsha, psha));
             if (!lsha) {
-            	lsha = localmeta.sha;
+                lsha = localmeta.sha;
             }
             psha = head.sha;
         }
@@ -90,9 +90,14 @@ function map(remotes, branches) {
     return table;
 }
 
-function chunk(err, stdout, stderr) {
-    var table;
+function disp(args) {
+    if (!process.stdout.isTTY) {
+        colors.mode = 'none';
+    }
+    return args.length > 2 ? args.pop() : 20;
+}
 
+function chunk(err, stdout, stderr) {
     if (err) {
         console.error(stderr);
         return process.exit(err.code);
@@ -108,10 +113,7 @@ function chunk(err, stdout, stderr) {
     console.log(map(Object.keys(remotes), Object.keys(branches)).toString());
 }
 
-colors.mode = process.stdout.isTTY ? 'console' : 'none'; // doesn't work
-
-msg_len_opt = process.argv.length > 2 ? +process.argv.pop() : 18;
-
+msglen = disp(process.argv);
 exec('git branch -av', chunk);
 
 /*

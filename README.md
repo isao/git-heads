@@ -16,7 +16,7 @@ install
 acknowledgments
 ---------------
 
-Table formatted using Guillermo Rauch's `cli-table`.
+Table formatted using Guillermo Rauch's [cli-table](/LearnBoost/cli-table).
 
 See also [michaelklishin/git-wtf](https://github.com/michaelklishin/git-wtf), [drewfish/git-moo](https://github.com/drewfish/git-moo), et al.
 

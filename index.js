@@ -5,8 +5,6 @@
  * See the accompanying LICENSE file for terms.
  */
 /*jshint node:true */
-'use strict';
-
 var exec = require('child_process').exec,
     Table = require('cli-table'),
     colors = require('cli-table/node_modules/colors'),
@@ -18,6 +16,8 @@ var exec = require('child_process').exec,
     branches = {}, //hash of local branch names[1], no values
     remotes = {},  //hash of remote names[2], no values
     meta = {};     //hash to look up git metadata by 'remote,branch'[3]
+var emoji = require('node-emoji');
+var async = require('async');
 
 
 function index(star, ref, sha, msg) {
@@ -38,7 +38,7 @@ function index(star, ref, sha, msg) {
         remotes[remote] = null; //index all remotes
     }
 
-    meta[[remote, branch].join()] = {star: star, sha: sha, msg: msg};
+    meta[[remote, branch].join()] = {star: star, sha: emoji.emojify(sha), msg: emoji.emojify(msg)};
 }
 
 function getMeta(repo, branch) {
@@ -90,56 +90,25 @@ function map(remotes, branches) {
     return table;
 }
 
-function disp(args) {
-    if (!process.stdout.isTTY) {
-        colors.mode = 'none';
-    }
-    return args.length > 2 ? args.pop() : 20;
-}
-
 function chunk(err, stdout, stderr) {
-    if (err) {
-        console.error(stderr);
-        return process.exit(err.code);
-    }
+      if (err) {
+          console.error(stderr);
+          return process.exit(err.code);
+      }
 
-    stdout.split('\n').forEach(function (str) {
-        var parts = str.match(CHUNK_RE);
-        if (parts) {
-            index(parts[1].trim(), parts[2], parts[3], parts[4]);
-        }
-    });
+      stdout.split('\n').forEach(function (str) {
+          var parts = str.match(CHUNK_RE);
+          if (parts) {
+              index(emoji.emojify(parts[1].trim()), emoji.emojify(parts[2]), emoji.emojify(parts[3]), emoji.emojify(parts[4]));
+          }
+      });
 
-    console.log(map(Object.keys(remotes), Object.keys(branches)).toString());
+      var output = map(Object.keys(remotes), Object.keys(branches)).toString();
+      console.log(output);
 }
 
-msglen = disp(process.argv);
-exec('git branch -av', chunk);
+msglen = 21;
 
-/*
-1. branches => {
-      arrowtests: null,
-      connect: null,
-      develop: null,
-      'develop-perf': null,
-      master: null,
-      testjs: null
-   }
-
-2. remotes => { local: null, my: null, up: null }
-
-3. meta => {
-  'local,arrowtests':
-   { star: '',
-     sha: 'df4666f',
-     msg: 'tweak to use MOJITO_DIR instead of path.join etc' },
-  'local,connect':
-   { star: '',
-     sha: '1b1e3b1',
-     msg: 'rm useless function wrapper, +lint/strict' },
-  'local,develop':
-   { star: '*',
-     sha: '748e74b',
-     msg: 'Merge pull request #740 from isao/develop' },
-   ...
-*/
+module.exports = function run() {
+  exec('git branch -av', chunk);
+}

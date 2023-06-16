@@ -1,6 +1,6 @@
 {
   "name": "git-heads",
-  "version": "0.0.3",
+  "version": "1.0.1",
   "description": "Summarize local and remote branch statuses, by formatting `git branch -av` in a table.",
   "author": "Isao Yagi <isao@aim.com>",
   "main": "index.js",

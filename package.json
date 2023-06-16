@@ -2,26 +2,30 @@
   "name": "git-heads",
   "version": "0.0.3",
   "description": "Summarize local and remote branch statuses, by formatting `git branch -av` in a table.",
+  "author": "Isao Yagi <isao@aim.com>",
   "main": "index.js",
   "bin": {
     "git-heads": "index.js"
   },
-  "dependencies": {
-    "cli-table": "^0.3.11",
-    "colors": "^1.4.0"
-  },
+  "license": "MIT",
+  "bugs": "https://github.com/isao/git-heads/issues",
   "homepage": "https://github.com/isao/git-heads",
   "repository": {
     "type": "git",
     "url": "git://github.com/isao/git-heads.git"
   },
-  "bugs": "https://github.com/isao/git-heads/issues",
-  "author": "Isao Yagi <isao@aim.com>",
-  "license": "MIT",
+  "dependencies": {
+    "cli-table": "^0.3.11",
+    "colors": "^1.4.0"
+  },
   "scripts": {
-    "test": "echo 'Error: no test specified' && exit 1"
+    "test": "node ."
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "keywords": [
-    "git"
+    "git",
+    "cli"
   ]
 }

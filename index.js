@@ -9,7 +9,7 @@
 
 var exec = require('child_process').exec,
     Table = require('cli-table'),
-    colors = require('cli-table/node_modules/colors'),
+    colors = require('colors'),
 
     CHUNK_RE = /^([* ]) (\S+)\s+([0-9a-f]+) (.+)$/,
     REMOTE_RE = /^remotes\/([\w.\-]+)\/([\w.\-]+)/,

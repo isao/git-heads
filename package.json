@@ -1,23 +1,23 @@
 {
   "name": "git-heads",
   "version": "0.0.3",
-  "description": "Summarize `git branch -av` in a table, and see local and remote branch HEADs.",
+  "description": "Summarize local and remote branch statuses, by formatting `git branch -av` in a table.",
   "main": "index.js",
   "bin": {
     "git-heads": "index.js"
   },
   "dependencies": {
-    "cli-table": ">0.0.1"
+    "cli-table": "^0.3.11",
+    "colors": "^1.4.0"
   },
+  "homepage": "https://github.com/isao/git-heads",
   "repository": {
     "type": "git",
     "url": "git://github.com/isao/git-heads.git"
   },
   "bugs": "https://github.com/isao/git-heads/issues",
-  "author": "Isao Yagi <isao@yahoo-inc.com>",
+  "author": "Isao Yagi <isao@aim.com>",
   "license": "MIT",
-  "readmeFilename": "README.md",
-  "devDependencies": {},
   "scripts": {
     "test": "echo 'Error: no test specified' && exit 1"
   },
